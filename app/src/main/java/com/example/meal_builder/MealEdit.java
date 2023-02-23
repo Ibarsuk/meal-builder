@@ -25,7 +25,7 @@ public class MealEdit extends AppCompatActivity {
     }
 
     public void onCancelBthClick(View view) {
-        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     public void onSaveBtnClick(View view) {
