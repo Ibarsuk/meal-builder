@@ -2,4 +2,8 @@
     <string name="app_name">meal-builder</string>
     <string name="choose_button">Составить трапезу</string>
     <string name="user_meals_title">Ваши трапезы</string>
+    <string name="calories_counter">Калории: </string>
+    <string name="fat_counter">Ж: </string>
+    <string name="protein_counter">Б: </string>
+    <string name="carbonhydrates_counter">У: </string>
 </resources>

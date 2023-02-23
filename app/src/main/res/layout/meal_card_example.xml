@@ -5,7 +5,8 @@
     android:layout_marginBottom="20dp"
     android:background="@drawable/rounded"
     android:padding="15dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:onClick="onExampleCardClick">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,7 +24,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/breakfast1"
+            android:id="@+id/card_example_img"
             android:scaleType="fitXY"/>
         </androidx.cardview.widget.CardView>
 
@@ -34,7 +35,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="Мой завтрак"
+            android:id="@+id/card_example_title"
             android:gravity="center_horizontal"
             android:maxLines="2"
             android:padding="0dp"/>
@@ -105,21 +106,38 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Калорий: 658"
+            android:text="@string/calories_counter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="658"
             android:layout_marginEnd="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ж: 256"
+            android:text="@string/fat_counter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="125"
             android:layout_marginEnd="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Б: 125"
+            android:text="@string/protein_counter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="69"
             android:layout_marginEnd="10dp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="У: 301"/>
+            android:text="@string/carbonhydrates_counter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="301"
+            android:layout_marginEnd="10dp"/>
     </LinearLayout>
 </LinearLayout>

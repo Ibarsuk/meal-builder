@@ -4,7 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.meal_builder.databinding.ActivityMainBinding;
+import com.example.meal_builder.databinding.MealCardTemplateBinding;
 
 public class MainActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
@@ -12,9 +19,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onCreate");
+
+        ImageView cardImg = (ImageView) findViewById(R.id.card_example_img);
+        cardImg.setImageResource(R.drawable.breakfast1);
+
+        EditText cardTitle = (EditText) findViewById(R.id.card_example_title);
+        cardTitle.setText("Мой завтрак");
+
+
+        MealCardTemplateBinding cardTemplatebinding = MealCardTemplateBinding.inflate(getLayoutInflater(), binding.cardsContainer, true);
+        cardTemplatebinding.mealCardImg.setImageResource(R.drawable.sandwitch);
+        cardTemplatebinding.mealCardTitle.setText("Мой перекус");
+        cardTemplatebinding.mealCardCalories.setText("341");
+        cardTemplatebinding.mealCardFats.setText("23");
+        cardTemplatebinding.mealCardProtein.setText("156");
+        cardTemplatebinding.mealCardCarbonhydrates.setText("64");
+        cardTemplatebinding.mealCardParts.setImageResource(R.drawable.salad);
+
+        Button addMealBtn = (Button) findViewById(R.id.add_meal_btn);
+
+        addMealBtn.setOnClickListener(addMealBtn1 -> Log.i(TAG, "Add meal btn pressed (programmatically processed)"));
     }
 
     @Override
@@ -52,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         Toast.makeText(this, "onRestart", Toast.LENGTH_SHORT).show();
         Log.i(TAG, "onRestart");
+    }
+
+    public void onExampleCardClick(View view) {
+        Log.i(TAG, "Add meal btn pressed (declaratively processed)");
     }
 }

@@ -6,6 +6,12 @@ android {
     namespace 'com.example.meal_builder'
     compileSdk 33
 
+    buildFeatures {
+        buildFeatures {
+            viewBinding true
+        }
+    }
+
     defaultConfig {
         applicationId "com.example.meal_builder"
         minSdk 29
