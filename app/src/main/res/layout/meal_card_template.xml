@@ -31,14 +31,16 @@ android:orientation="vertical">
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
+        <TextView
             android:id="@+id/meal_card_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:text=""
             android:gravity="center_horizontal"
             android:maxLines="2"
-            android:padding="0dp"/>
+            android:padding="0dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

@@ -32,13 +32,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:id="@+id/card_example_title"
             android:gravity="center_horizontal"
             android:maxLines="2"
-            android:padding="0dp"/>
+            android:padding="0dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

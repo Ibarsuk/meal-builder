@@ -40,7 +40,7 @@ tools:context=".MealEdit">
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:maxLines="4"
-            android:text="Название трапезы"
+            android:id="@+id/meal_title"
             android:textColor="@color/black"
             android:textSize="25sp" />
 
@@ -186,7 +186,8 @@ tools:context=".MealEdit">
                 android:layout_marginEnd="40dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/main"
-                android:text="@string/save_button" />
+                android:text="@string/save_button"
+                android:onClick="onSaveBtnClick"/>
 
             <Button
                 android:layout_width="150dp"
@@ -194,7 +195,8 @@ tools:context=".MealEdit">
                 android:layout_weight="1"
                 android:backgroundTint="@color/secondary"
                 android:text="@string/cancel_button"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:onClick="onCancelBthClick"/>
         </LinearLayout>
 
     </LinearLayout>
