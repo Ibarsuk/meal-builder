@@ -6,4 +6,7 @@
     <string name="fat_counter">Ж: </string>
     <string name="protein_counter">Б: </string>
     <string name="carbonhydrates_counter">У: </string>
+    <string name="meal_edit_title">Редактировать трапезу</string>
+    <string name="save_button">Сохранить</string>
+    <string name="cancel_button">Отмена</string>
 </resources>

@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/green"
+        android:background="@color/main"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
         android:text="@string/user_meals_title"
@@ -60,7 +60,7 @@
         <Button
             android:layout_width="291dp"
             android:layout_height="60dp"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/main"
             android:text="@string/choose_button"
             android:id="@+id/add_meal_btn">
         </Button>
