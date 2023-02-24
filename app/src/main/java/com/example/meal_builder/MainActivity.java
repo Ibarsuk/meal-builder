@@ -24,7 +24,8 @@ import com.example.meal_builder.databinding.MealCardTemplateBinding;
 public class MainActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
 
-    ActivityResultLauncher<Intent> EditLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+    ActivityResultLauncher<Intent> editLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() != RESULT_OK) {
                     return;
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         cardTitle.setText("Мой завтрак");
 
 
-        MealCardTemplateBinding cardTemplatebinding = MealCardTemplateBinding.inflate(getLayoutInflater(), binding.cardsContainer, true);
+        MealCardTemplateBinding cardTemplatebinding = MealCardTemplateBinding.inflate(
+                getLayoutInflater(), binding.cardsContainer, true
+        );
         cardTemplatebinding.mealCardImg.setImageResource(R.drawable.sandwitch);
         cardTemplatebinding.mealCardTitle.setText("Мой перекус");
         cardTemplatebinding.mealCardCalories.setText("341");
@@ -61,7 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         Button addMealBtn = (Button) findViewById(R.id.add_meal_btn);
 
-        addMealBtn.setOnClickListener(addMealBtn1 -> Log.i(TAG, "Add meal btn pressed (programmatically processed)"));
+        addMealBtn.setOnClickListener(
+                addMealBtn1 -> Log.i(TAG, "Add meal btn pressed (programmatically processed)")
+        );
     }
 
     @Override
@@ -102,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onExampleCardClick(View view) {
-        Log.i(TAG, "Add meal btn pressed (declaratively processed)");
+        Log.i(TAG, "Example card clicked (declaratively processed)");
 
         Intent intent = new Intent(this, MealEdit.class);
         MealCardExampleBinding binding = MealCardExampleBinding.bind(view);
         intent.putExtra("meal-title", binding.cardExampleTitle.getText().toString());
 
-        EditLauncher.launch(intent);
+        editLauncher.launch(intent);
     }
 }
