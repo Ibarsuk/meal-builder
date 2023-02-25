@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView"
+    <RelativeLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/main"
-        android:gravity="center_vertical"
-        android:paddingStart="20dp"
-        android:text="@string/user_meals_title"
-        android:textColor="@color/white"
-        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        android:background="@color/main"
+        android:layout_height="50dp"
+        android:paddingHorizontal="@dimen/big_margin">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:id="@+id/textView"
+            android:layout_alignParentStart="true"
+            android:layout_width="match_parent"
+            android:text="@string/user_meals_title"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+    </RelativeLayout>
+
 
     <ScrollView
         app:layout_constrainedHeight="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/header"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp">
 
