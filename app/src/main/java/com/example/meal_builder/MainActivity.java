@@ -1,11 +1,7 @@
 package com.example.meal_builder;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentResultListener;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,18 +17,8 @@ import com.example.meal_builder.databinding.ActivityMainBinding;
 import com.example.meal_builder.databinding.MealCardExampleBinding;
 import com.example.meal_builder.databinding.MealCardTemplateBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
     private final String TAG = this.getClass().getSimpleName();
-
-    ActivityResultLauncher<Intent> editLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() != RESULT_OK) {
-                    return;
-                }
-                TextView title = (TextView) findViewById(R.id.card_example_title);
-                title.setText(result.getData().getExtras().get("edited-title").toString());
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         TextView cardTitle = (TextView) findViewById(R.id.card_example_title);
         cardTitle.setText("Мой завтрак");
 
-
         MealCardTemplateBinding cardTemplatebinding = MealCardTemplateBinding.inflate(
                 getLayoutInflater(), binding.cardsContainer, true
         );
@@ -67,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
         addMealBtn.setOnClickListener(
                 addMealBtn1 -> Log.i(TAG, "Add meal btn pressed (programmatically processed)")
         );
+
+        getSupportFragmentManager().setFragmentResultListener("mealEdit", this, (requestKey, result) -> {
+            cardTitle.setText(result.getString("title"));
+        });
     }
 
     @Override
@@ -109,10 +98,15 @@ public class MainActivity extends AppCompatActivity {
     public void onExampleCardClick(View view) {
         Log.i(TAG, "Example card clicked (declaratively processed)");
 
-        Intent intent = new Intent(this, MealEdit.class);
         MealCardExampleBinding binding = MealCardExampleBinding.bind(view);
-        intent.putExtra("meal-title", binding.cardExampleTitle.getText().toString());
 
-        editLauncher.launch(intent);
+        Bundle bundle = new Bundle();
+        Log.e(TAG, binding.cardExampleTitle.getText().toString());
+        bundle.putString("title",  binding.cardExampleTitle.getText().toString());
+
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.fragment_container_view, EditMealFragment.class, bundle)
+                .commit();
     }
 }

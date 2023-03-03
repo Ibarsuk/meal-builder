@@ -24,7 +24,7 @@ public class MealEdit extends AppCompatActivity {
         binding.mealTitle.setText(title);
     }
 
-    public void onCancelBthClick(View view) {
+    public void onCancelBthClic(View view) {
         finish();
     }
 
