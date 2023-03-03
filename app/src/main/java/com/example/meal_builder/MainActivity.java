@@ -53,9 +53,11 @@ public class MainActivity extends FragmentActivity {
                 addMealBtn1 -> Log.i(TAG, "Add meal btn pressed (programmatically processed)")
         );
 
-        getSupportFragmentManager().setFragmentResultListener("mealEdit", this, (requestKey, result) -> {
-            cardTitle.setText(result.getString("title"));
-        });
+        getSupportFragmentManager().setFragmentResultListener(
+                "mealEdit",
+                this,
+                (requestKey, result) -> cardTitle.setText(result.getString("title"))
+        );
     }
 
     @Override
@@ -101,7 +103,6 @@ public class MainActivity extends FragmentActivity {
         MealCardExampleBinding binding = MealCardExampleBinding.bind(view);
 
         Bundle bundle = new Bundle();
-        Log.e(TAG, binding.cardExampleTitle.getText().toString());
         bundle.putString("title",  binding.cardExampleTitle.getText().toString());
 
         getSupportFragmentManager().beginTransaction()

@@ -44,7 +44,7 @@ public class ChoosePartsFragment extends Fragment {
             Bundle result = new Bundle();
             result.putStringArrayList("parts", chosenParts);
             getParentFragmentManager().setFragmentResult("partsChoise", result);
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            getParentFragmentManager().beginTransaction().remove(this).commit();
         });
 
         for(String partName : names) {
