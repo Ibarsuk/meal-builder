@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="@dimen/big_margin"
     android:background="@drawable/border_rounded"
     android:paddingHorizontal="15dp"
     android:paddingBottom="10dp"
@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/card_example_img"
+                android:id="@+id/part_image"
                 android:scaleType="fitXY"
                 android:src="@drawable/sandwitch"/>
         </androidx.cardview.widget.CardView>
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/card_example_title"
+                    android:id="@+id/part_title"
                     android:text="Хлеб"
                     android:textSize="17sp"
                     android:textColor="@color/black"
@@ -91,6 +91,7 @@
                             android:text="@string/calories_counter" />
 
                         <TextView
+                            android:id="@+id/part_calories"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" 658" />
@@ -107,6 +108,7 @@
                             android:text="Жиры: " />
 
                         <TextView
+                            android:id="@+id/part_fats"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="125" />
@@ -133,6 +135,7 @@
                             android:text="Белки: " />
 
                         <TextView
+                            android:id="@+id/part_protein"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" 658" />
@@ -149,6 +152,7 @@
                             android:text="Углеводы: " />
 
                         <TextView
+                            android:id="@+id/part_carbohydrates"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="57" />

@@ -14,23 +14,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.meal_builder.databinding.MealPartTemplateBinding;
 import com.example.meal_builder.databinding.MealPartVariantBinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.Callable;
 
 public class ChoosePartsFragment extends Fragment {
     static ArrayList<ChoosableMealPart> choosableParts = new ArrayList<ChoosableMealPart>(){
         {
             add(new ChoosableMealPart(123, 421, 333, 44, "Сыр", "salad"));
             add(new ChoosableMealPart(123, 421, 333, 44, "Колбаса", "tomatoes"));
+
+            for (int i = 0; i < 200; i++) {
+                add(new ChoosableMealPart(123, 421, 333, 44, "Сыр", "salad"));
+            }
         }
     };
 
     private final String TAG = this.getClass().getSimpleName();
-    String[] names = new String[] {"Сыр", "Колбаса"};
-    ArrayList<String> chosenParts = new ArrayList<String>();
+    ArrayList<ChoosableMealPart> chosenParts = new ArrayList<ChoosableMealPart>();
+    ChosenPartsService partsService = new ChosenPartsService();
 
     public ChoosePartsFragment() {
         super(R.layout.fragment_choose_parts);
@@ -41,6 +49,12 @@ public class ChoosePartsFragment extends Fragment {
         Log.i(TAG, "onViewCreated");
         Toast.makeText(getContext(), "onViewCreated", Toast.LENGTH_SHORT).show();
 
+        RecyclerView partsList = getView().findViewById(R.id.part_variants_container);
+        MealPartRecyclerAdapter adapter = new MealPartRecyclerAdapter(getContext(), choosableParts, partsService);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        partsList.setLayoutManager(manager);
+        partsList.setAdapter(adapter);
+
         Button cancelBtn = (Button) getView().findViewById(R.id.chooseCancelBtn);
         cancelBtn.setOnClickListener((cancelBtn1) -> {
             getParentFragmentManager().beginTransaction().remove(this).commit();
@@ -49,22 +63,15 @@ public class ChoosePartsFragment extends Fragment {
         Button saveBtn = (Button) getView().findViewById(R.id.chooseSaveBtn);
         saveBtn.setOnClickListener((saveBtn1) -> {
             Bundle result = new Bundle();
-            result.putStringArrayList("parts", chosenParts);
+            result.putSerializable("parts", partsService.getParts());
+//            putStringArrayList("parts", new ArrayList<String>(Arrays.asList("asd", "123")));
             getParentFragmentManager().setFragmentResult("partsChoise", result);
             getParentFragmentManager().beginTransaction().remove(this).commit();
         });
+    }
 
-        for(String partName : names) {
-            MealPartVariantBinding cardTemplatebinding = MealPartVariantBinding.inflate(
-                    getLayoutInflater(), getView().findViewById(R.id.part_variants_container), true
-            );
-
-            cardTemplatebinding.cardExampleTitle.setText(partName);
-            cardTemplatebinding.partVariant.setOnClickListener((card) -> {
-                TextView cardTitle = (TextView) card.findViewById(R.id.card_example_title);
-                chosenParts.add(cardTitle.getText().toString());
-            });
-        }
+    public void addChosenPart(ChoosableMealPart part) {
+        this.chosenParts.add(part);
     }
 
     @Override

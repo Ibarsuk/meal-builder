@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.meal_builder.databinding.MealPartTemplateBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class EditMealFragment extends Fragment {
@@ -26,10 +27,6 @@ public class EditMealFragment extends Fragment {
         {
             add(new MealPart(ChoosePartsFragment.choosableParts.get(0)));
             add(new MealPart(ChoosePartsFragment.choosableParts.get(1)));
-
-            for (int i = 0; i < 20; i++) {
-                add(new MealPart(ChoosePartsFragment.choosableParts.get(1)));
-            }
         }
     };
 
@@ -71,13 +68,12 @@ public class EditMealFragment extends Fragment {
                 "partsChoise",
                 this,
                 (requestKey, result) -> {
-//                    for(String partName : result.getStringArrayList("parts")) {
-//                        MealPartTemplateBinding cardTemplatebinding = MealPartTemplateBinding.inflate(
-//                                getLayoutInflater(), getView().findViewById(R.id.parts_container), true
-//                        );
-//
-//                        cardTemplatebinding.cardExampleTitle.setText(partName);
-//                    }
+                    ArrayList<ChoosableMealPart> chosenParts = (ArrayList<ChoosableMealPart>) result.getSerializable("parts");
+                    for(ChoosableMealPart part : chosenParts) {
+                        parts.add(new MealPart(part));
+                    }
+
+                    adapter.notifyDataSetChanged();
                 });
     }
 }

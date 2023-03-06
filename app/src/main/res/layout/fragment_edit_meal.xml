@@ -69,7 +69,8 @@
                     android:layout_height="wrap_content"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="@dimen/big_margin"
-                    android:descendantFocusability="beforeDescendants"/>
+                    android:descendantFocusability="beforeDescendants"
+                    android:paddingBottom="@dimen/big_margin"/>
 
             </LinearLayout>
 

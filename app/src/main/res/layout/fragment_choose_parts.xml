@@ -46,25 +46,13 @@
             android:textSize="25sp"
             android:hint="Поиск ингредиентов"/>
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <LinearLayout
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/part_variants_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingHorizontal="10dp">
-
-                <include layout="@layout/meal_part_variant"
-                    android:id="@+id/variant1"/>
-                <include layout="@layout/meal_part_variant"
-                    android:id="@+id/variant2"/>
-
-
-            </LinearLayout>
-        </ScrollView>
+                android:paddingHorizontal="10dp"/>
 
 
     </LinearLayout>
