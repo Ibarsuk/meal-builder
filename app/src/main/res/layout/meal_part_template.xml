@@ -9,7 +9,7 @@
     android:paddingHorizontal="15dp"
     android:paddingBottom="10dp"
     android:orientation="vertical"
-    >
+    android:id="@+id/parts_layout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
