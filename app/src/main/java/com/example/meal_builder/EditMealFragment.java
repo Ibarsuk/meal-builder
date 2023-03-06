@@ -3,16 +3,27 @@ package com.example.meal_builder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.meal_builder.databinding.MealPartTemplateBinding;
 
+import java.util.ArrayList;
+
 public class EditMealFragment extends Fragment {
     public EditMealFragment() {
         super(R.layout.fragment_edit_meal);
     }
+
+    static ArrayList<MealPart> parts = new ArrayList<MealPart>() {
+        {
+            add(new MealPart(ChoosePartsFragment.choosableParts.get(0)));
+            add(new MealPart(ChoosePartsFragment.choosableParts.get(1)));
+        }
+    };
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -20,6 +31,10 @@ public class EditMealFragment extends Fragment {
 
         TextView titleView = (TextView) getView().findViewById(R.id.meal_title);
         titleView.setText(title);
+
+        ListView partsList = getView().findViewById(R.id.parts_container);
+        MealPartVariantAdapter adapter = new MealPartVariantAdapter(getContext(), R.layout.meal_part_template, parts);
+        partsList.setAdapter(adapter);
 
         Button cancelBtn = (Button) getView().findViewById(R.id.editCancelBtn);
         cancelBtn.setOnClickListener((cancelBtn1) -> {
@@ -46,13 +61,13 @@ public class EditMealFragment extends Fragment {
                 "partsChoise",
                 this,
                 (requestKey, result) -> {
-                    for(String partName : result.getStringArrayList("parts")) {
-                        MealPartTemplateBinding cardTemplatebinding = MealPartTemplateBinding.inflate(
-                                getLayoutInflater(), getView().findViewById(R.id.parts_container), true
-                        );
-
-                        cardTemplatebinding.cardExampleTitle.setText(partName);
-                    }
+//                    for(String partName : result.getStringArrayList("parts")) {
+//                        MealPartTemplateBinding cardTemplatebinding = MealPartTemplateBinding.inflate(
+//                                getLayoutInflater(), getView().findViewById(R.id.parts_container), true
+//                        );
+//
+//                        cardTemplatebinding.cardExampleTitle.setText(partName);
+//                    }
                 });
     }
 }

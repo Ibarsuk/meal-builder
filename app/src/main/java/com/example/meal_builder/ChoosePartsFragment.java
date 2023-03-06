@@ -21,6 +21,13 @@ import com.example.meal_builder.databinding.MealPartVariantBinding;
 import java.util.ArrayList;
 
 public class ChoosePartsFragment extends Fragment {
+    static ArrayList<ChoosableMealPart> choosableParts = new ArrayList<ChoosableMealPart>(){
+        {
+            add(new ChoosableMealPart(123, 421, 333, 44, "Сыр", "salad"));
+            add(new ChoosableMealPart(123, 421, 333, 44, "Колбаса", "tomatoes"));
+        }
+    };
+
     private final String TAG = this.getClass().getSimpleName();
     String[] names = new String[] {"Сыр", "Колбаса"};
     ArrayList<String> chosenParts = new ArrayList<String>();
@@ -36,7 +43,7 @@ public class ChoosePartsFragment extends Fragment {
 
         Button cancelBtn = (Button) getView().findViewById(R.id.chooseCancelBtn);
         cancelBtn.setOnClickListener((cancelBtn1) -> {
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            getParentFragmentManager().beginTransaction().remove(this).commit();
         });
 
         Button saveBtn = (Button) getView().findViewById(R.id.chooseSaveBtn);

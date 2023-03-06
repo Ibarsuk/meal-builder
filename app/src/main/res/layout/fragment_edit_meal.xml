@@ -45,12 +45,7 @@
             android:textColor="@color/black"
             android:textSize="25sp" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <LinearLayout
-                android:id="@+id/parts_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -68,13 +63,14 @@
                     android:layout_marginBottom="20dp"
                     android:id="@+id/choosePartsBtn"/>
 
-                <include layout="@layout/meal_part" />
-                <include layout="@layout/meal_part" />
-
+                <ListView
+                    android:id="@+id/parts_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="@dimen/big_margin"/>
 
             </LinearLayout>
-        </ScrollView>
-
 
     </LinearLayout>
 
