@@ -85,8 +85,8 @@ public class MealPartVariantAdapter extends ArrayAdapter<MealPart> {
         holder.grams.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 final int position1 = v.getId();
-                final EditText Caption = (EditText) v;
-                getItem(position1).grams = Integer.parseInt(Caption.getText().toString());
+                final EditText gramsView = (EditText) v;
+                getItem(position1).grams = Integer.parseInt(gramsView.getText().toString());
             }
         });
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.meal_builder.databinding.MealPartTemplateBinding;
 
@@ -45,31 +46,39 @@ public class EditMealFragment extends Fragment {
 
         Button cancelBtn = (Button) getView().findViewById(R.id.editCancelBtn);
         cancelBtn.setOnClickListener((cancelBtn1) -> {
-            getParentFragmentManager().beginTransaction().remove(this).commit();
+            Navigation.findNavController(view).popBackStack();
         });
 
         Button saveBtn = (Button) getView().findViewById(R.id.editSaveBtn);
         saveBtn.setOnClickListener((saveBtn1) -> {
-            Bundle result = new Bundle();
-            result.putString("title", titleView.getText().toString());
-            getParentFragmentManager().setFragmentResult("mealEdit", result);
-            requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            Navigation.findNavController(view).getPreviousBackStackEntry().getSavedStateHandle().set("mealEdit", titleView.getText().toString());
+            Navigation.findNavController(view).popBackStack();
         });
 
         Button chooseBtn = (Button) getView().findViewById(R.id.choosePartsBtn);
         chooseBtn.setOnClickListener((chooseBtn1) -> {
-            getChildFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragment_container_choose, ChoosePartsFragment.class, new Bundle())
-                    .commit();
+            Navigation.findNavController(view).navigate(R.id.action_edit_to_choose);
         });
 
-        getChildFragmentManager().setFragmentResultListener(
-                "partsChoise",
-                this,
-                (requestKey, result) -> {
-                    ArrayList<ChoosableMealPart> chosenParts = (ArrayList<ChoosableMealPart>) result.getSerializable("parts");
-                    for(ChoosableMealPart part : chosenParts) {
+//        getChildFragmentManager().setFragmentResultListener(
+//                "partsChoise",
+//                this,
+//                (requestKey, result) -> {
+//                    ArrayList<ChoosableMealPart> chosenParts = (ArrayList<ChoosableMealPart>) result.getSerializable("parts");
+//                    for(ChoosableMealPart part : chosenParts) {
+//                        parts.add(new MealPart(part));
+//                    }
+//
+//                    adapter.notifyDataSetChanged();
+//                });
+
+
+        Navigation.findNavController(view)
+                .getCurrentBackStackEntry()
+                .getSavedStateHandle()
+                .getLiveData("partsChoise")
+                .observe(getViewLifecycleOwner(), (res) -> {
+                    for(ChoosableMealPart part : (ArrayList<ChoosableMealPart>) res) {
                         parts.add(new MealPart(part));
                     }
 
