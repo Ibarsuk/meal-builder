@@ -10,6 +10,7 @@
     <color name="main">#36d160</color>
     <color name="main_light">#90fcad</color>
     <color name="secondary">#d7d9d7</color>
+    <color name="third">#fcb8b8</color>
     <color name="background">#93d4fa</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>

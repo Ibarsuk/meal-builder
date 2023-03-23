@@ -9,8 +9,12 @@
     <string name="meal_edit_title">Редактировать трапезу</string>
     <string name="save_button">Сохранить</string>
     <string name="cancel_button">Отмена</string>
+    <string name="plan_button">План</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="plan_channel">Plan channel</string>
+    <string name="plan_channel_description">Channel for planned meals</string>
+    <string name="plan_notification_title">Время есть </string>
 </resources>

@@ -179,24 +179,37 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <Button
                 android:id="@+id/editSaveBtn"
-                android:layout_width="150dp"
+                android:layout_width="140dp"
                 android:layout_height="60dp"
-                android:layout_marginEnd="40dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/main"
                 android:text="@string/save_button"
+                android:textSize="13sp"
                 android:onClick="onSaveBtnClick"/>
 
             <Button
+                android:id="@+id/editPlanButton"
+                android:layout_width="140dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/third"
+                android:text="@string/plan_button"
+                android:textSize="15sp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black" />
+
+            <Button
                 android:id="@+id/editCancelBtn"
-                android:layout_width="150dp"
+                android:layout_width="140dp"
                 android:layout_height="60dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/secondary"
+                android:textSize="15sp"
                 android:text="@string/cancel_button"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -208,5 +221,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_choose_parts"
+        android:visibility="invisible"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
