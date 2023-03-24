@@ -3,6 +3,9 @@ package com.example.meal_builder;
 import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
@@ -82,7 +86,7 @@ public class EditMealFragment extends Fragment {
         });
 
         Button planBtn = (Button) getView().findViewById(R.id.editPlanButton);
-        planBtn.setOnClickListener((saveBtn1) -> {
+        planBtn.setOnClickListener((btn) -> {
             this.showNotification();
         });
 
@@ -102,10 +106,21 @@ public class EditMealFragment extends Fragment {
     private void showNotification() {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
         if (notificationManager.areNotificationsEnabled()) {
+
+            Intent notificationIntent = new Intent(getContext(), MainActivity.class);
+            PendingIntent contentIntent = PendingIntent.getActivity(getContext(),
+                    0, notificationIntent,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "plan_channel")
                     .setDefaults(NotificationCompat.DEFAULT_ALL)
                     .setSmallIcon(R.drawable.notification_icon)
-                    .setContentTitle(getResources().getString(R.string.plan_notification_title) + " " + this.title);
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                            R.drawable.breakfast1))
+                    .setContentText((getResources().getString(R.string.plan_notification_text) + " " + this.title))
+                    .setContentTitle(getResources().getString(R.string.plan_notification_title) + " " + this.title)
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(true);
 
             notificationManager.notify(1, builder.build());
         } else {

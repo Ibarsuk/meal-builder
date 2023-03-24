@@ -17,4 +17,5 @@
     <string name="plan_channel">Plan channel</string>
     <string name="plan_channel_description">Channel for planned meals</string>
     <string name="plan_notification_title">Время есть </string>
+    <string name="plan_notification_text">На это время вы запланировали </string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.meal_builder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
 
-public class ChoosePartsFragment extends Fragment {
+public class ChoosePartsFragment extends Fragment implements DefaultLifecycleObserver {
     static ArrayList<ChoosableMealPart> choosableParts = new ArrayList<ChoosableMealPart>(){
         {
             add(new ChoosableMealPart(123, 421, 333, 44, "Сыр", "salad"));
@@ -83,8 +90,29 @@ public class ChoosePartsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
         Log.i(TAG, "onCreate");
         Toast.makeText(getContext(), "onCreate", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStop(@NonNull LifecycleOwner owner) {
+        if (isVisible() && !partsService.getParts().isEmpty()) {
+            Intent intent = new Intent(getContext(), OverlayService.class);
+            StringBuilder notSavedParts = new StringBuilder();
+            for (ChoosableMealPart part : partsService.getParts()) {
+                notSavedParts.append(part.name).append(" ");
+            }
+            intent.putExtra("NotSaved", notSavedParts.toString());
+            getContext().startService(intent);
+        }
+    }
+
+    @Override
+    public void onResume(@NonNull LifecycleOwner owner) {
+        if (isVisible() && !partsService.getParts().isEmpty()) {
+            getContext().stopService(new Intent(getContext(), OverlayService.class));
+        }
     }
 
     @Nullable
