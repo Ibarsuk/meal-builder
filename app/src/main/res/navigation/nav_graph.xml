@@ -19,6 +19,9 @@
         android:label="Meals"
         tools:layout="@layout/fragment_meals">
         <action
+            android:id="@+id/action_meals_to_login"
+            app:destination="@+id/loginFragments" />
+        <action
             android:id="@+id/action_meals_to_edit"
             app:destination="@+id/editFragment" />
     </fragment>

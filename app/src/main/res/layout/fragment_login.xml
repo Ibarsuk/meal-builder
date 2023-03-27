@@ -66,6 +66,7 @@
 
     <Button
         android:id="@+id/login"
+        android:padding="@dimen/big_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -75,6 +76,8 @@
         android:layout_marginBottom="64dp"
         android:enabled="false"
         android:text="@string/action_sign_in"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
