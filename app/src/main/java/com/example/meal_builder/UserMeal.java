@@ -1,12 +1,15 @@
 package com.example.meal_builder;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserMeal {
-    public int id;
+    @Nullable
+    public Integer id;
     public String name;
     public String image;
     public List<MealPart> parts;
@@ -23,6 +26,13 @@ public class UserMeal {
         this.name = meal.name;
         this.image = meal.image;
         this.parts = new ArrayList<>(meal.parts);
+    }
+
+    public UserMeal() {
+        this.id = null;
+        this.name = "Новая трапеза";
+        this.image = "empty";
+        this.parts = new ArrayList<>();
     }
 
     public int getTotalCalories() {

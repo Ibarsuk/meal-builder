@@ -1,7 +1,9 @@
 package com.example.meal_builder.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,5 +28,11 @@ public class MealsFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mealsList.setLayoutManager(manager);
         mealsList.setAdapter(adapter);
+
+        Button addButton = getView().findViewById(R.id.add_meal_btn);
+        addButton.setOnClickListener(view1 -> {
+            mealsViewModel.addNewMeal();
+            Log.e("S", String.valueOf(mealsViewModel.getUserMeals().size()));
+        });
     }
 }

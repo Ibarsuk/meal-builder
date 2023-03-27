@@ -33,7 +33,7 @@ public class UserMealsAdapter extends RecyclerView.Adapter< UserMealsAdapter.Vie
 
     public UserMealsAdapter(Context context, MealsViewModel mealsViewModel, Fragment fragment) {
         this.context = context;
-        this.items = mealsViewModel.userMeals.getValue();
+        this.items = mealsViewModel.getUserMeals();
         this.inflater = LayoutInflater.from(context);
         this.mealsViewModel = mealsViewModel;
         this.fragment = fragment;
@@ -57,18 +57,17 @@ public class UserMealsAdapter extends RecyclerView.Adapter< UserMealsAdapter.Vie
         holder.protein.setText(String.valueOf(item.getTotalProtein()));
         holder.carbohydrates.setText(String.valueOf(item.getTotalCarbohydrates()));
 
-
-        for (MealPart part : item.parts) {
-            UserMealCardPartTemplateBinding cardPartBinding = UserMealCardPartTemplateBinding.inflate(
-                    inflater, holder.partsContainer, true
-            );
-            String uri = "@drawable/" + part.image;
-            System.out.println(uri);
-            cardPartBinding.mealCardParts.setImageResource(context.getResources().getIdentifier(uri, null, context.getPackageName()));
+        if (holder.partsContainer.getChildCount() == 0) {
+            for (MealPart part : item.parts) {
+                UserMealCardPartTemplateBinding cardPartBinding = UserMealCardPartTemplateBinding.inflate(
+                        inflater, holder.partsContainer, true
+                );
+                String uri = "@drawable/" + part.image;
+                cardPartBinding.mealCardParts.setImageResource(context.getResources().getIdentifier(uri, null, context.getPackageName()));
+            }
         }
 
         String uri = "@drawable/" + item.image;
-        System.out.println(uri);
         holder.image.setImageResource(context.getResources().getIdentifier(uri, null, context.getPackageName()));
 
         holder.container.setOnClickListener((layout) -> {
