@@ -1,6 +1,5 @@
-package com.example.meal_builder;
+package com.example.meal_builder.ui;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -9,10 +8,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.navigation.Navigation;
+import com.example.meal_builder.R;
+import com.example.meal_builder.ui.FakeActivity;
 
 public class OverlayService extends Service {
     private WindowManager windowManager;

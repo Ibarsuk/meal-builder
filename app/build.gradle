@@ -6,6 +6,10 @@ android {
     namespace 'com.example.meal_builder'
     compileSdk 33
 
+    dataBinding {
+        enabled = true
+    }
+
     buildFeatures {
         buildFeatures {
             viewBinding true

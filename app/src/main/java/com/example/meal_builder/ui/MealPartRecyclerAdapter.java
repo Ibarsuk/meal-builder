@@ -1,34 +1,42 @@
-package com.example.meal_builder;
+package com.example.meal_builder.ui;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meal_builder.ChoosableMealPart;
+import com.example.meal_builder.ChosenPartsService;
+import com.example.meal_builder.MealPartsViewModel;
+import com.example.meal_builder.R;
+
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class MealPartRecyclerAdapter extends RecyclerView.Adapter< MealPartRecyclerAdapter.ViewHolder>{
     private final String TAG = this.getClass().getSimpleName();
     private final LayoutInflater inflater;
     private final List<ChoosableMealPart> items;
     private Context context;
-    ChosenPartsService partsService;
+
+    private MealPartsViewModel mealPartsViewModel;
 
 
-    MealPartRecyclerAdapter(Context context, List<ChoosableMealPart> items, ChosenPartsService partsService) {
+    MealPartRecyclerAdapter(Context context, MealPartsViewModel mealPartsViewModel, Fragment fragment) {
         this.context = context;
-        this.items = items;
-        this.partsService = partsService;
+        this.items = mealPartsViewModel.possibleMealParts.getValue();
         this.inflater = LayoutInflater.from(context);
+        this.mealPartsViewModel = mealPartsViewModel;
+
+        mealPartsViewModel.possibleMealParts.observe(fragment.getViewLifecycleOwner(), (possibleMealParts) -> this.notifyDataSetChanged());
     }
 
     @Override
@@ -54,7 +62,7 @@ public class MealPartRecyclerAdapter extends RecyclerView.Adapter< MealPartRecyc
             Log.i(TAG, "ItemClicked!");
             Toast.makeText(context, "ItemClicked!", Toast.LENGTH_SHORT).show();
 
-            partsService.addPart(item);
+            mealPartsViewModel.addChosenPartById(item.id);
             holder.container.setBackgroundColor(context.getColor(R.color.main_light));
         });
     }

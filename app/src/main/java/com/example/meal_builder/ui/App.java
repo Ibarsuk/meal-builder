@@ -1,4 +1,4 @@
-package com.example.meal_builder;
+package com.example.meal_builder.ui;
 
 import android.app.Application;
 import android.app.NotificationChannel;
@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.os.Build;
 
 import androidx.lifecycle.ProcessLifecycleOwner;
+
+import com.example.meal_builder.R;
 
 public class App extends Application {
     @Override

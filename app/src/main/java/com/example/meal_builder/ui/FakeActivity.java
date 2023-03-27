@@ -1,4 +1,4 @@
-package com.example.meal_builder;
+package com.example.meal_builder.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 

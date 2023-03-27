@@ -6,7 +6,7 @@
     app:startDestination="@id/mealsFragment">
     <fragment
         android:id="@+id/mealsFragment"
-        android:name="com.example.meal_builder.MealsFragment"
+        android:name="com.example.meal_builder.ui.MealsFragment"
         android:label="Meals"
         tools:layout="@layout/fragment_meals">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.example.meal_builder.EditMealFragment"
+        android:name="com.example.meal_builder.ui.EditMealFragment"
         android:label="EditMeal"
         tools:layout="@layout/fragment_edit_meal">
         <action
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/choosePartsFragment"
-        android:name="com.example.meal_builder.ChoosePartsFragment"
+        android:name="com.example.meal_builder.ui.ChoosePartsFragment"
         android:label="ChooseParts"
         tools:layout="@layout/fragment_choose_parts" />
 

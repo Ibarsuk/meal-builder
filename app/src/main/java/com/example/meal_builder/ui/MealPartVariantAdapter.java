@@ -1,4 +1,4 @@
-package com.example.meal_builder;
+package com.example.meal_builder.ui;
 
 import android.content.Context;
 import android.text.Editable;
@@ -17,18 +17,28 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meal_builder.MealPart;
+import com.example.meal_builder.R;
+
 import java.util.List;
 
 public class MealPartVariantAdapter extends ArrayAdapter<MealPart> {
     private final int layout;
     private LayoutInflater inflater;
+    List<MealPart> items;
 
     private final String TAG = this.getClass().getSimpleName();
 
     public MealPartVariantAdapter(Context context, int resource, List<MealPart> items) {
         super(context, R.layout.meal_part_template, items);
+        this.items = items;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    @Override
+    public int getCount() {
+        return items.size();
     }
 
     static class ViewHolder {
@@ -73,7 +83,6 @@ public class MealPartVariantAdapter extends ArrayAdapter<MealPart> {
                 Log.i(TAG, "ItemClicked!");
                 Toast.makeText(getContext(), "ItemClicked!", Toast.LENGTH_SHORT).show();
             });
-//
 
             convertView.setTag(holder);
         } else {
