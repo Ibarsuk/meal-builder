@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragments">
     <fragment
         android:id="@+id/loginFragments"
-        android:name="com.example.meal_builder.ui.login.LoginFragment"
+        android:name="com.example.meal_builder.ui.view.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/mealsFragment"
-        android:name="com.example.meal_builder.ui.MealsFragment"
+        android:name="com.example.meal_builder.ui.view.MealsFragment"
         android:label="Meals"
         tools:layout="@layout/fragment_meals">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/editFragment"
-        android:name="com.example.meal_builder.ui.EditMealFragment"
+        android:name="com.example.meal_builder.ui.view.EditMealFragment"
         android:label="EditMeal"
         tools:layout="@layout/fragment_edit_meal">
         <action
@@ -36,8 +36,17 @@
     </fragment>
     <fragment
         android:id="@+id/choosePartsFragment"
-        android:name="com.example.meal_builder.ui.ChoosePartsFragment"
+        android:name="com.example.meal_builder.ui.view.ChoosePartsFragment"
         android:label="ChooseParts"
-        tools:layout="@layout/fragment_choose_parts" />
+        tools:layout="@layout/fragment_choose_parts">
+        <action
+            android:id="@+id/action_choose_to_add_parts"
+            app:destination="@+id/add_part_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_part_fragment"
+        android:name="com.example.meal_builder.ui.view.AddMealPartFragment"
+        android:label="AddPart"
+        tools:layout="@layout/fragment_add_meal_part" />
 
 </navigation>
