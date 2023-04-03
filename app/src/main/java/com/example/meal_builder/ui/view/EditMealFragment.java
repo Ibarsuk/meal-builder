@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
@@ -158,6 +159,11 @@ public class EditMealFragment extends Fragment {
                 while(fis.read(buffer)!=-1){
                     Log.i("content", new String(buffer, StandardCharsets.UTF_8));
                 }
+
+                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.last_notification_date_key), new Date().toString());
+                editor.apply();
 
                 requestSavePermissionLauncher.launch(filename);
 
