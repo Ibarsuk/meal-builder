@@ -1,5 +1,6 @@
 package com.example.meal_builder.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,15 +31,18 @@ public class UserMealsAdapter extends RecyclerView.Adapter< UserMealsAdapter.Vie
     private MealsViewModel mealsViewModel;
     private Fragment fragment;
 
-
+    
     public UserMealsAdapter(Context context, MealsViewModel mealsViewModel, Fragment fragment) {
         this.context = context;
-        this.items = mealsViewModel.getUserMeals();
+        this.items = mealsViewModel.getUserMeals().getValue();
         this.inflater = LayoutInflater.from(context);
         this.mealsViewModel = mealsViewModel;
         this.fragment = fragment;
 
-        mealsViewModel.userMeals.observe(fragment.getViewLifecycleOwner(), (possibleMealParts) -> this.notifyDataSetChanged());
+        mealsViewModel.getUserMeals().observe(
+                fragment.getViewLifecycleOwner(),
+                (possibleMealParts) -> this.notifyDataSetChanged()
+        );
     }
 
     @Override

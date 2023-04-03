@@ -2,10 +2,14 @@ package com.example.meal_builder.ui.view;
 
 import android.Manifest;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
@@ -26,13 +34,36 @@ import com.example.meal_builder.R;
 import com.example.meal_builder.data.model.UserMeal;
 import com.example.meal_builder.ui.adapters.MealPartVariantAdapter;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 public class EditMealFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     MealsViewModel mealsViewModel;
     private MealPartVariantAdapter adapter;
     private  UserMeal meal;
+
+    private final ActivityResultLauncher<String> requestSavePermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.CreateDocument("txt/*"), uri -> {
+                if (uri != null) {
+                    try {
+                        ParcelFileDescriptor txt = getActivity().getContentResolver().openFileDescriptor(uri, "w");
+                        FileOutputStream fileOutputStream = new FileOutputStream(txt.getFileDescriptor());
+                        fileOutputStream.write((new Date() + " " + this.meal.name).getBytes());
+                        fileOutputStream.close();
+                        txt.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
@@ -44,12 +75,6 @@ public class EditMealFragment extends Fragment {
     public EditMealFragment() {
         super(R.layout.fragment_edit_meal);
     }
-
-    static ArrayList<MealPart> parts = new ArrayList<MealPart>() {
-        {
-
-        }
-    };
 
     private void rerender(View view) {
         EditText titleView = (EditText) getView().findViewById(R.id.meal_title);
@@ -74,25 +99,22 @@ public class EditMealFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mealsViewModel = new ViewModelProvider(getActivity()).get(MealsViewModel.class);
-        mealsViewModel.editingMeal.observe(getViewLifecycleOwner(), userMeal -> {
+        mealsViewModel.getEditingMeal().observe(getViewLifecycleOwner(), userMeal -> {
             this.meal = userMeal;
             rerender(view);
         });
 
-        this.meal = mealsViewModel.editingMeal.getValue();
+        this.meal = mealsViewModel.getEditingMeal().getValue();
 
         EditText titleView = (EditText) getView().findViewById(R.id.meal_title);
         titleView.setText(this.meal.name);
 
         setCalories(view);
 
-        titleView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    meal.name = ((EditText) view).getEditableText().toString();
-                    mealsViewModel.changeEditingMeal(meal);
-                }
+        titleView.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (!hasFocus) {
+                meal.name = ((EditText) view1).getEditableText().toString();
+                mealsViewModel.changeEditingMeal(meal);
             }
         });
 
@@ -120,7 +142,32 @@ public class EditMealFragment extends Fragment {
         Button planBtn = (Button) getView().findViewById(R.id.editPlanButton);
         planBtn.setOnClickListener((btn) -> {
             this.showNotification();
+
+
+            String filename = "somefile.txt";
+            String fileContents = new Date() + " " + this.meal.name + "\n";
+            try {
+                File file = new File(getContext().getFilesDir(), filename);
+                file.createNewFile();
+                FileOutputStream fos = new FileOutputStream(file, true);
+                fos.write(fileContents.getBytes());
+                fos.close();
+
+                FileInputStream fis =  getContext().openFileInput(filename);
+                byte[] buffer = new byte[1024];
+                while(fis.read(buffer)!=-1){
+                    Log.i("content", new String(buffer, StandardCharsets.UTF_8));
+                }
+
+                requestSavePermissionLauncher.launch(filename);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         });
+
+
     }
 
     private void showNotification() {

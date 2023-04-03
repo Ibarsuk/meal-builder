@@ -19,4 +19,14 @@ public class PartsSource {
     static private  int random(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
+
+    public ArrayList<ChoosableMealPart> get() {
+        return new ArrayList<>(choosableParts);
+    }
+
+    public ChoosableMealPart add(ChoosableMealPart toAdd) {
+        toAdd.id = choosableParts.size();
+        choosableParts.add(toAdd);
+        return toAdd;
+    }
 }

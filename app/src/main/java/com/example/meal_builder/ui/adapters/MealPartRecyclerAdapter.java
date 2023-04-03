@@ -30,11 +30,11 @@ public class MealPartRecyclerAdapter extends RecyclerView.Adapter< MealPartRecyc
 
     public MealPartRecyclerAdapter(Context context, MealPartsViewModel mealPartsViewModel, Fragment fragment) {
         this.context = context;
-        this.items = mealPartsViewModel.getPossibleMealParts();
+        this.items = mealPartsViewModel.getPossibleMealParts().getValue();
         this.inflater = LayoutInflater.from(context);
         this.mealPartsViewModel = mealPartsViewModel;
 
-        mealPartsViewModel.possibleMealParts.observe(fragment.getViewLifecycleOwner(), (possibleMealParts) -> this.notifyDataSetChanged());
+        mealPartsViewModel.getPossibleMealParts().observe(fragment.getViewLifecycleOwner(), (possibleMealParts) -> this.notifyDataSetChanged());
     }
 
     @Override

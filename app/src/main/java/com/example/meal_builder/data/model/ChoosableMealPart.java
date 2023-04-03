@@ -12,7 +12,9 @@ public class ChoosableMealPart {
     public String name;
     public String image;
 
-    public ChoosableMealPart(@Nullable Integer id, int calories, int fats, int protein, int carbohydrates, String name, String image) {
+    public ChoosableMealPart(
+            @Nullable Integer id, int calories, int fats, int protein, int carbohydrates, String name, String image
+    ) {
         this.id = id;
         this.calories = calories;
         this.fats = fats;

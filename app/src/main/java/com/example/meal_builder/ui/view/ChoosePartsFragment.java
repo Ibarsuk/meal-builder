@@ -56,7 +56,7 @@ public class ChoosePartsFragment extends Fragment implements DefaultLifecycleObs
 
         Button saveBtn = (Button) getView().findViewById(R.id.chooseSaveBtn);
         saveBtn.setOnClickListener((saveBtn1) -> {
-            mealsViewModel.addPartsToEditingMeal(mealPartsViewModel.chosenMealParts.getValue());
+            mealsViewModel.addPartsToEditingMeal(mealPartsViewModel.getChosenMealParts().getValue());
             Navigation.findNavController(view).popBackStack();
         });
 
@@ -84,10 +84,10 @@ public class ChoosePartsFragment extends Fragment implements DefaultLifecycleObs
 
     @Override
     public void onStop(@NonNull LifecycleOwner owner) {
-        if (isVisible() && mealPartsViewModel.getChosenMealParts().size() > 0) {
+        if (isVisible() && mealPartsViewModel.getChosenMealParts().getValue().size() > 0) {
             Intent intent = new Intent(getContext(), OverlayService.class);
             StringBuilder notSavedParts = new StringBuilder();
-            for (ChoosableMealPart part : mealPartsViewModel.getChosenMealParts()) {
+            for (ChoosableMealPart part : mealPartsViewModel.getChosenMealParts().getValue()) {
                 notSavedParts.append(part.name).append(" ");
             }
             intent.putExtra("NotSaved", notSavedParts.toString());
@@ -97,7 +97,7 @@ public class ChoosePartsFragment extends Fragment implements DefaultLifecycleObs
 
     @Override
     public void onResume(@NonNull LifecycleOwner owner) {
-        if (isVisible() && mealPartsViewModel.getChosenMealParts().size() > 0) {
+        if (isVisible() && mealPartsViewModel.getChosenMealParts().getValue().size() > 0) {
             getContext().stopService(new Intent(getContext(), OverlayService.class));
         }
     }

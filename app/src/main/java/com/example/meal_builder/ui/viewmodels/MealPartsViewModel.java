@@ -1,5 +1,6 @@
 package com.example.meal_builder.ui.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -10,20 +11,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MealPartsViewModel extends ViewModel {
+    PartsRepository partsRepository;
 
-    public MutableLiveData<List<ChoosableMealPart>> possibleMealParts = new MutableLiveData<>(null);
+    public MutableLiveData<List<ChoosableMealPart>> possibleMealParts;
     public MutableLiveData<List<ChoosableMealPart>> chosenMealParts = new MutableLiveData<>(new ArrayList<>());
 
-    public List<ChoosableMealPart> getPossibleMealParts() {
-        if (possibleMealParts.getValue() == null) {
-            possibleMealParts.setValue(PartsRepository.get());
-        }
-        return possibleMealParts.getValue();
+    public MealPartsViewModel() {
+        partsRepository = new PartsRepository();
+        possibleMealParts = partsRepository.get();
     }
 
-    public List<ChoosableMealPart> getChosenMealParts() {
-        return chosenMealParts.getValue();
+    public LiveData<List<ChoosableMealPart>> getPossibleMealParts() {
+        return possibleMealParts;
     }
+
+    public LiveData<List<ChoosableMealPart>> getChosenMealParts() {
+        return chosenMealParts;
+    }
+
 
     public ChoosableMealPart getMealPartById(int id) {
         return possibleMealParts.getValue().stream().filter(mealPart -> mealPart.id == id).findFirst().orElse(null);

@@ -1,5 +1,6 @@
 package com.example.meal_builder.ui.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,21 +10,24 @@ import com.example.meal_builder.data.model.UserMeal;
 import com.example.meal_builder.data.repositories.MealsRepository;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MealsViewModel extends ViewModel {
-    public MutableLiveData<List<UserMeal>> userMeals = new MutableLiveData<>(null);
-    public MutableLiveData<UserMeal> editingMeal = new MutableLiveData<>(null);
+    MealsRepository mRepository;
+    MutableLiveData<List<UserMeal>> userMeals;
+    MutableLiveData<UserMeal> editingMeal = new MutableLiveData<>(null);
 
-
-    public List<UserMeal> getUserMeals() {
-        if (userMeals.getValue() == null) {
-            userMeals.setValue(MealsRepository.getMeals());
-        }
-        return userMeals.getValue();
+    public MealsViewModel() {
+        mRepository = new  MealsRepository();
+        userMeals = mRepository.getMeals();
     }
 
+    public LiveData<List<UserMeal>> getUserMeals() { return userMeals;}
+
+    public LiveData<UserMeal> getEditingMeal() {return editingMeal;}
+
     public void addNewMeal() {
-        UserMeal newMeal = MealsRepository.addMeal(new UserMeal());
+        UserMeal newMeal = mRepository.addMeal(new UserMeal());
         userMeals.getValue().add(newMeal);
         userMeals.setValue(userMeals.getValue());
     }
@@ -38,7 +42,7 @@ public class MealsViewModel extends ViewModel {
 
     public void saveEditingMeal() {
         UserMeal editing = editingMeal.getValue();
-        userMeals.getValue().replaceAll(userMeal -> userMeal.id == editing.id ? editing : userMeal);
+        userMeals.getValue().replaceAll(userMeal -> Objects.equals(userMeal.id, editing.id) ? editing : userMeal);
     }
 
     public void changeEditingMeal(UserMeal meal) {
