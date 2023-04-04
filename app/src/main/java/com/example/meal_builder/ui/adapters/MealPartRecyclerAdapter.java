@@ -22,7 +22,7 @@ import java.util.List;
 public class MealPartRecyclerAdapter extends RecyclerView.Adapter< MealPartRecyclerAdapter.ViewHolder>{
     private final String TAG = this.getClass().getSimpleName();
     private final LayoutInflater inflater;
-    private final List<ChoosableMealPart> items;
+    private List<ChoosableMealPart> items;
     private Context context;
 
     private MealPartsViewModel mealPartsViewModel;
@@ -34,7 +34,10 @@ public class MealPartRecyclerAdapter extends RecyclerView.Adapter< MealPartRecyc
         this.inflater = LayoutInflater.from(context);
         this.mealPartsViewModel = mealPartsViewModel;
 
-        mealPartsViewModel.getPossibleMealParts().observe(fragment.getViewLifecycleOwner(), (possibleMealParts) -> this.notifyDataSetChanged());
+        mealPartsViewModel.getPossibleMealParts().observe(fragment.getViewLifecycleOwner(), (possibleMealParts) -> {
+            this.items = possibleMealParts;
+            this.notifyDataSetChanged();
+        });
     }
 
     @Override

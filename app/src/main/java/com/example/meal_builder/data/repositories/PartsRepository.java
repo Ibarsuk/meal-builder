@@ -1,33 +1,43 @@
 package com.example.meal_builder.data.repositories;
 
-import androidx.lifecycle.LiveData;
+import android.app.Application;
+
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.meal_builder.data.data_sources.PartsSource;
+import com.example.meal_builder.data.DB;
+import com.example.meal_builder.data.Mapper;
+import com.example.meal_builder.data.data_sources.MealPartDAO;
+import com.example.meal_builder.data.entities.MealPart;
 import com.example.meal_builder.data.model.ChoosableMealPart;
-import com.example.meal_builder.data.model.UserMeal;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PartsRepository {
-    private PartsSource partsSource;
 
-    public PartsRepository() {
-        partsSource = new PartsSource();
+    private MealPartDAO mealPartDAO;
+
+    private MutableLiveData<List<ChoosableMealPart>> parts = new MutableLiveData<>(new ArrayList<>());
+
+    public PartsRepository(Application app) {
+        DB db = DB.getDatabase(app);
+        mealPartDAO = db.mealPartDao();
     }
 
      public MutableLiveData<List<ChoosableMealPart>> get() {
-        MutableLiveData<List<ChoosableMealPart>> result = new MutableLiveData<>();
+        DB.databaseWriteExecutor.execute(() -> {
+            List<MealPart> newParts = mealPartDAO.getAll();
+            parts.postValue(Mapper.mapMealPartToChoosable(newParts));
+        });
 
-        result.setValue(partsSource.get());
-
-        return result;
+        return parts;
     }
 
-    static public ChoosableMealPart add(ChoosableMealPart partToAdd) {
-        partToAdd.id = PartsSource.choosableParts.size();
-        PartsSource.choosableParts.add(partToAdd);
-        return partToAdd;
+    public void add(MealPart partToAdd) {
+        DB.databaseWriteExecutor.execute(() -> {
+            MealPart addedPart = mealPartDAO.insert(partToAdd);
+            parts.getValue().add(Mapper.adaptPartToChoosable(addedPart));
+            parts.postValue(parts.getValue());
+        });
     }
 }

@@ -1,5 +1,8 @@
 package com.example.meal_builder.ui.viewmodels;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,13 +15,14 @@ import com.example.meal_builder.data.repositories.MealsRepository;
 import java.util.List;
 import java.util.Objects;
 
-public class MealsViewModel extends ViewModel {
+public class MealsViewModel extends AndroidViewModel {
     MealsRepository mRepository;
     MutableLiveData<List<UserMeal>> userMeals;
     MutableLiveData<UserMeal> editingMeal = new MutableLiveData<>(null);
 
-    public MealsViewModel() {
-        mRepository = new  MealsRepository();
+    public MealsViewModel(Application app) {
+        super(app);
+        mRepository = new MealsRepository(app);
         userMeals = mRepository.getMeals();
     }
 
@@ -26,11 +30,7 @@ public class MealsViewModel extends ViewModel {
 
     public LiveData<UserMeal> getEditingMeal() {return editingMeal;}
 
-    public void addNewMeal() {
-        UserMeal newMeal = mRepository.addMeal(new UserMeal());
-        userMeals.getValue().add(newMeal);
-        userMeals.setValue(userMeals.getValue());
-    }
+    public void addNewMeal() {mRepository.addEmptyMeal();}
 
     public UserMeal getMealById(int id) {
         return userMeals.getValue().stream().filter(userMeal -> userMeal.id == id).findFirst().orElse(null);
@@ -41,8 +41,7 @@ public class MealsViewModel extends ViewModel {
     }
 
     public void saveEditingMeal() {
-        UserMeal editing = editingMeal.getValue();
-        userMeals.getValue().replaceAll(userMeal -> Objects.equals(userMeal.id, editing.id) ? editing : userMeal);
+        mRepository.updateMeal(editingMeal.getValue());
     }
 
     public void changeEditingMeal(UserMeal meal) {

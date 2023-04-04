@@ -8,6 +8,8 @@ import android.os.Build;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
 import com.example.meal_builder.R;
+import com.example.meal_builder.data.DB;
+import com.google.gson.Gson;
 
 public class App extends Application {
     @Override
@@ -19,5 +21,10 @@ public class App extends Application {
         NotificationChannel channel = new NotificationChannel("plan_channel", name, NotificationManager.IMPORTANCE_HIGH);
         channel.setDescription(description);
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
+
+        DB db = DB.getDatabase(this);
+        DB.databaseWriteExecutor.execute(() -> {
+            db.mealPartDao().getAll();
+        });
     }
 }

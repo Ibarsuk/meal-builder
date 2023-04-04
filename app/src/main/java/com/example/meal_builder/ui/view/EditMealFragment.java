@@ -114,8 +114,7 @@ public class EditMealFragment extends Fragment {
 
         titleView.setOnFocusChangeListener((view1, hasFocus) -> {
             if (!hasFocus) {
-                meal.name = ((EditText) view1).getEditableText().toString();
-                mealsViewModel.changeEditingMeal(meal);
+                saveTitle(view1);
             }
         });
 
@@ -131,6 +130,7 @@ public class EditMealFragment extends Fragment {
 
         Button saveBtn = (Button) getView().findViewById(R.id.editSaveBtn);
         saveBtn.setOnClickListener((saveBtn1) -> {
+            saveTitle(titleView);
             mealsViewModel.saveEditingMeal();
             Navigation.findNavController(view).popBackStack();
         });
@@ -172,8 +172,11 @@ public class EditMealFragment extends Fragment {
             }
 
         });
+    }
 
-
+    private void saveTitle(View view) {
+        meal.name = ((EditText) view).getEditableText().toString();
+        mealsViewModel.changeEditingMeal(meal);
     }
 
     private void showNotification() {

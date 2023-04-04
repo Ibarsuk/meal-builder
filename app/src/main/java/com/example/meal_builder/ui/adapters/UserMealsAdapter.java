@@ -2,6 +2,7 @@ package com.example.meal_builder.ui.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,7 @@ import java.util.List;
 public class UserMealsAdapter extends RecyclerView.Adapter< UserMealsAdapter.ViewHolder>{
     private final String TAG = this.getClass().getSimpleName();
     private final LayoutInflater inflater;
-    private final List<UserMeal> items;
+    private List<UserMeal> items;
     private Context context;
 
     private MealsViewModel mealsViewModel;
@@ -41,7 +42,10 @@ public class UserMealsAdapter extends RecyclerView.Adapter< UserMealsAdapter.Vie
 
         mealsViewModel.getUserMeals().observe(
                 fragment.getViewLifecycleOwner(),
-                (possibleMealParts) -> this.notifyDataSetChanged()
+                (userMeals) -> {
+                    items = userMeals;
+                    this.notifyDataSetChanged();
+                }
         );
     }
 
