@@ -34,6 +34,7 @@ import com.example.meal_builder.ui.viewmodels.MealsViewModel;
 import com.example.meal_builder.R;
 import com.example.meal_builder.data.model.UserMeal;
 import com.example.meal_builder.ui.adapters.MealPartVariantAdapter;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,7 +58,7 @@ public class EditMealFragment extends Fragment {
                     try {
                         ParcelFileDescriptor txt = getActivity().getContentResolver().openFileDescriptor(uri, "w");
                         FileOutputStream fileOutputStream = new FileOutputStream(txt.getFileDescriptor());
-                        fileOutputStream.write((new Date() + " " + this.meal.name).getBytes());
+                        fileOutputStream.write(new Gson().toJson(mealsViewModel.getUserMeals().getValue()).getBytes());
                         fileOutputStream.close();
                         txt.close();
                     } catch (IOException e) {
@@ -144,33 +145,7 @@ public class EditMealFragment extends Fragment {
         planBtn.setOnClickListener((btn) -> {
             this.showNotification();
 
-
-            String filename = "somefile.txt";
-            String fileContents = new Date() + " " + this.meal.name + "\n";
-            try {
-                File file = new File(getContext().getFilesDir(), filename);
-                file.createNewFile();
-                FileOutputStream fos = new FileOutputStream(file, true);
-                fos.write(fileContents.getBytes());
-                fos.close();
-
-                FileInputStream fis =  getContext().openFileInput(filename);
-                byte[] buffer = new byte[1024];
-                while(fis.read(buffer)!=-1){
-                    Log.i("content", new String(buffer, StandardCharsets.UTF_8));
-                }
-
-                SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString(getString(R.string.last_notification_date_key), new Date().toString());
-                editor.apply();
-
-                requestSavePermissionLauncher.launch(filename);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
+            requestSavePermissionLauncher.launch("meals.txt");
         });
     }
 

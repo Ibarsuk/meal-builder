@@ -42,9 +42,9 @@ public abstract class DB extends RoomDatabase {
             super.onCreate(db);
 
             databaseWriteExecutor.execute(() -> {
-                MealPartDAO dao = INSTANCE.mealPartDao();
+                MealPartDAO partsDAO = INSTANCE.mealPartDao();
                 UserMealDAO userMealDAO = INSTANCE.userMealDAO();
-                dao.deleteAll();
+                partsDAO.deleteAll();
                 userMealDAO.deleteAll();
 
                 String[] parts = new String[] {"Сыр", "Колбаса", "Салат", "Хлеб", "Творог", "Мюсли", "Банан", "Чай", "Квас", "Помидор"};
@@ -52,7 +52,7 @@ public abstract class DB extends RoomDatabase {
                 ArrayList<Long> partIds = new ArrayList<Long>();
 
                 for (String part : parts) {
-                    long id = dao.insert(new MealPart(Util.random(0, 674), Util.random(0, 234), Util.random(0, 319), Util.random(0, 199), part, images[Util.random(0, images.length - 1)])).partId;
+                    long id = partsDAO.insert(new MealPart(Util.random(0, 674), Util.random(0, 234), Util.random(0, 319), Util.random(0, 199), part, images[Util.random(0, images.length - 1)])).partId;
                     partIds.add(id);
                 }
 
@@ -64,9 +64,12 @@ public abstract class DB extends RoomDatabase {
                     mealIds.add(id);
                 }
 
+                int basePartsNumber = 2;
+
                 for (Long mealId : mealIds) {
-                    userMealDAO.assignMealPartToUserMeal(new MealPartCrossRef(mealId, partIds.get(0), 100));
-                    userMealDAO.assignMealPartToUserMeal(new MealPartCrossRef(mealId, partIds.get(1), 100));
+                    for (int i = 0; i < basePartsNumber; i ++) {
+                        userMealDAO.assignMealPartToUserMeal(new MealPartCrossRef(mealId, partIds.get(Util.random(0, partIds.size() - 1)), Util.random(10, 1000)));
+                    }
                 }
             });
         }

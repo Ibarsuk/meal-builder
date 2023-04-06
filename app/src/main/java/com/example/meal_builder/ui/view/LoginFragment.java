@@ -8,9 +8,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,13 @@ import com.example.meal_builder.R;
 import com.example.meal_builder.data.model.LoggedInUserView;
 import com.example.meal_builder.ui.viewmodels.LoginViewModel;
 import com.example.meal_builder.ui.viewmodels.LoginViewModelFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 public class LoginFragment extends Fragment {
 
@@ -128,6 +138,34 @@ public class LoginFragment extends Fragment {
         // TODO : initiate successful logged in experience
         if (getContext() != null && getContext().getApplicationContext() != null) {
             Toast.makeText(getContext().getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        }
+
+        String filename = getString(R.string.logins_filename);
+        String fileContents = new Date() + "," + model.getDisplayName() + "\n";
+        try {
+            File file = new File(getContext().getFilesDir(), filename);
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file, true);
+            fos.write(fileContents.getBytes());
+            fos.close();
+
+            FileInputStream fis =  getContext().openFileInput(filename);
+            byte[] buffer = new byte[256];
+            while(fis.read(buffer)!=-1){
+                Log.i("content", new String(buffer, StandardCharsets.UTF_8));
+            }
+
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(getString(R.string.last_login_date_key), new Date().toString());
+            editor.apply();
+
+            String lastLogin = sharedPref.getString(getString(R.string.last_login_date_key), "");
+            Log.i("lastlogin", lastLogin);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         Navigation.findNavController(getView()).navigate(
