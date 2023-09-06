@@ -32,6 +32,19 @@
             android:textSize="25sp" />
 
         <Button
+            android:id="@+id/export_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/textView"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="33dp"
+            android:layout_marginBottom="9dp"
+            android:layout_toStartOf="@+id/logout_btn"
+            android:background="@drawable/export_icon"
+            android:backgroundTint="@color/black" />
+
+        <Button
             android:id="@+id/logout_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.meal_builder.ui.viewmodels.LoginViewModel;
 import com.example.meal_builder.ui.viewmodels.MealPartsViewModel;
 import com.example.meal_builder.ui.viewmodels.MealsViewModel;
 import com.example.meal_builder.R;
@@ -42,6 +43,7 @@ public class ChoosePartsFragment extends Fragment implements DefaultLifecycleObs
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mealPartsViewModel = new ViewModelProvider(getActivity()).get(MealPartsViewModel.class);
         mealsViewModel = new ViewModelProvider(getActivity()).get(MealsViewModel.class);
+        LoginViewModel loginViewModel = new ViewModelProvider(getActivity()).get(LoginViewModel.class);
 
         RecyclerView partsList = getView().findViewById(R.id.part_variants_container);
         MealPartRecyclerAdapter adapter = new MealPartRecyclerAdapter(getContext(), mealPartsViewModel, this);
@@ -60,10 +62,13 @@ public class ChoosePartsFragment extends Fragment implements DefaultLifecycleObs
             Navigation.findNavController(view).popBackStack();
         });
 
-        Button addPartBtn = getView().findViewById(R.id.add_part_btn);
-        addPartBtn.setOnClickListener(view1 -> {
-            Navigation.findNavController(view).navigate(R.id.action_choose_to_add_parts);
-        });
+        if (loginViewModel.getLoginResult().getValue().getSuccess().getRole() == "moderator") {
+            Button addPartBtn = getView().findViewById(R.id.add_part_btn);
+            addPartBtn.setVisibility(View.VISIBLE);
+            addPartBtn.setOnClickListener(view1 -> {
+                Navigation.findNavController(view).navigate(R.id.action_choose_to_add_parts);
+            });
+        }
     }
 
     @Override

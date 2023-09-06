@@ -26,7 +26,13 @@ public class MealsViewModel extends AndroidViewModel {
         userMeals = mRepository.getMeals();
     }
 
-    public LiveData<List<UserMeal>> getUserMeals() { return userMeals;}
+    public LiveData<List<UserMeal>> getUserMeals() {
+        if (userMeals == null) {
+            userMeals = mRepository.getMeals();
+        }
+
+        return userMeals;
+    }
 
     public LiveData<UserMeal> getEditingMeal() {return editingMeal;}
 
@@ -44,6 +50,10 @@ public class MealsViewModel extends AndroidViewModel {
         mRepository.updateMeal(editingMeal.getValue());
     }
 
+    public void updateMeal(UserMeal mealToUpdate) {
+        mRepository.updateMeal(mealToUpdate);
+    }
+
     public void changeEditingMeal(UserMeal meal) {
         editingMeal.setValue(meal);
     }
@@ -53,5 +63,9 @@ public class MealsViewModel extends AndroidViewModel {
         for (ChoosableMealPart part : parts) {
             meal.parts.add(new MealPart(part));
         }
+    }
+
+    public void clear() {
+        userMeals = null;
     }
 }

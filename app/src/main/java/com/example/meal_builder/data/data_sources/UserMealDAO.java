@@ -19,8 +19,8 @@ import java.util.List;
 @Dao
 public abstract class UserMealDAO {
     @Transaction
-    @Query("SELECT * FROM user_meals")
-    abstract public List<UserMealWithParts> getUserMealsWithParts();
+    @Query("SELECT * FROM user_meals WHERE userId = :userId")
+    abstract public List<UserMealWithParts> getUserMealsWithParts(long userId);
 
     @Transaction
     @Query("SELECT * FROM user_meals WHERE mealId = :id")

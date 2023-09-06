@@ -39,7 +39,7 @@ public class Mapper {
         return userMealWithPartsList.stream().map(Mapper::adaptUserMealToClient).collect(Collectors.toList());
     }
 
-    public static com.example.meal_builder.data.entities.UserMeal adaptUserMealToDB(UserMeal o) {
-        return new com.example.meal_builder.data.entities.UserMeal((long) o.id, o.name, o.image);
+    public static com.example.meal_builder.data.entities.UserMeal adaptUserMealToDB(UserMeal o, long userId) {
+        return new com.example.meal_builder.data.entities.UserMeal((long) o.id, o.name, o.image, userId);
     }
 }

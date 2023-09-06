@@ -31,12 +31,13 @@ public class LoginDataSource {
             if (user == null || !Objects.equals(user.password, password)) {
                 User newUser = new User(users.size(), username, password, "user");
                 users.add(newUser);
-                loggedUser = new LoggedInUser(newUser.id, newUser.email);
+                loggedUser = new LoggedInUser(newUser.id, newUser.email, newUser.role);
             } else {
                 loggedUser =
                         new LoggedInUser(
                                 user.id,
-                                user.email);
+                                user.email,
+                                user.role);
             }
 
             return new Result.Success<>(loggedUser);

@@ -14,26 +14,31 @@ import android.widget.Toast;
 
 import com.example.meal_builder.data.model.MealPart;
 import com.example.meal_builder.R;
+import com.example.meal_builder.data.model.UserMeal;
+import com.example.meal_builder.ui.viewmodels.MealsViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MealPartVariantAdapter extends ArrayAdapter<MealPart> {
     private final int layout;
     private LayoutInflater inflater;
-    List<MealPart> items;
+    MealsViewModel mealsViewModel;
+    UserMeal meal;
 
     private final String TAG = this.getClass().getSimpleName();
 
-    public MealPartVariantAdapter(Context context, int resource, List<MealPart> items) {
-        super(context, R.layout.meal_part_template, items);
-        this.items = items;
+    public MealPartVariantAdapter(Context context, int resource, UserMeal meal, MealsViewModel mealsViewModel) {
+        super(context, R.layout.meal_part_template, meal.parts);
+        this.meal = meal;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
+        this.mealsViewModel = mealsViewModel;
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return meal.parts.size();
     }
 
     static class ViewHolder {
@@ -90,7 +95,12 @@ public class MealPartVariantAdapter extends ArrayAdapter<MealPart> {
             if (!hasFocus) {
                 final int position1 = v.getId();
                 final EditText gramsView = (EditText) v;
-                getItem(position1).grams = Integer.parseInt(gramsView.getText().toString());
+
+                Log.e("A!!", String.valueOf(meal.parts.get(position1).grams));
+//                getItem(position1).grams = Integer.parseInt(gramsView.getText().toString());
+                meal.parts.get(position1).grams = Integer.parseInt(gramsView.getText().toString());
+                Log.e("A!!", String.valueOf(meal.parts.get(position1).grams));
+                notifyDataSetChanged();
             }
         });
 

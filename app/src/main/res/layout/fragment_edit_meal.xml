@@ -62,14 +62,10 @@
                     android:layout_marginBottom="20dp"
                     android:id="@+id/choosePartsBtn"/>
 
-                <ListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/parts_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="@dimen/big_margin"
-                    android:descendantFocusability="beforeDescendants"
-                   />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

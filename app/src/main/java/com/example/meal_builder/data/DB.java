@@ -25,7 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Database(entities = {MealPart.class, MealPartCrossRef.class, UserMeal.class}, version = 3, exportSchema = false)
+@Database(entities = {MealPart.class, MealPartCrossRef.class, UserMeal.class}, version = 4, exportSchema = false)
 public abstract class DB extends RoomDatabase {
 
     public abstract MealPartDAO mealPartDao();
@@ -56,7 +56,7 @@ public abstract class DB extends RoomDatabase {
                     partIds.add(id);
                 }
 
-                UserMeal[] meals = new UserMeal[] {new UserMeal( "Мой завтрак", "breakfast1"), new UserMeal( "Мой перекус", "salad")};
+                UserMeal[] meals = new UserMeal[] {new UserMeal( "Мой завтрак", "breakfast1", 0), new UserMeal( "Мой перекус", "salad", 0)};
                 ArrayList<Long> mealIds = new ArrayList<>();
 
                 for (UserMeal userMeal : meals) {
